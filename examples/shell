@@ -1,0 +1,8 @@
+require 'pry'
+require './lib/ld220'
+require './lib/ld220/mode/utc'
+
+s = LD220.new '/dev/ttyUSB0', LD220::Mode::UTC
+s.debug = true
+
+binding.pry
