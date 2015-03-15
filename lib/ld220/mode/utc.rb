@@ -26,6 +26,7 @@ class LD220
 
       def scroll_msg(msg)
         msg = msg.to_s
+        # Messages longer than 45 chars are accepted, but truncated
         raise ArgumentError, "Message must be 45 or fewer characters" if msg.length > 45
         enhanced_cmd { write "#{ENHANCED_PREAMBLE}\x44#{msg}\x0d" }
       end
