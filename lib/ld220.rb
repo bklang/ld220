@@ -11,12 +11,17 @@ class LD220
     @display = Serial.new device, options[:speed]
   end
 
-  def type(string, delay = 0.1)
+  def type(messages, delay = 0.1)
     clear
     sleep delay
-    string.split('').each do |char|
-      write char
-      sleep delay
+    Array(messages).each do |message|
+      message.split('').each do |char|
+        write char
+        sleep delay
+      end
+      # Print a cr/lf only if the message hasn't wrapped
+      write "\r\n" if message.length < 20
+      display_line :bottom, " " * 20
     end
   end
 
