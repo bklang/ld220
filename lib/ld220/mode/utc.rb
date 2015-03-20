@@ -46,6 +46,24 @@ class LD220
         enhanced_cmd { write "#{ENHANCED_PREAMBLE}\x45#{time.strftime "%H:%M"}\x0d" }
       end
 
+      def display_line(line, msg)
+        line_code =case line
+        when :top then "\x41"
+        when :bottom then "\x42"
+        when :both then "\x49"
+        end
+
+        if [:top, :bottom].include? line
+          raise ArgumentError, "Message too long! Max 20 chars" if msg.length > 20
+        end
+
+        if line == :both
+          raise ArgumentError, "Message too long! Max 40 chars" if msg.length > 40
+        end
+
+        enhanced_cmd { write "#{ENHANCED_PREAMBLE}#{line_code}#{msg}\x0d" }
+      end
+
       def enhanced_cmd
         enhanced_mode
         yield
